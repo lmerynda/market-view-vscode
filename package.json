@@ -1,0 +1,91 @@
+{
+  "name": "market-view-vscode",
+  "displayName": "Market View",
+  "description": "Open an authenticated TradingView MNQ 2-minute chart from VS Code.",
+  "version": "0.0.1",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "browser": "./dist/web/extension.js",
+  "extensionKind": [
+    "workspace",
+    "web"
+  ],
+  "capabilities": {
+    "virtualWorkspaces": {
+      "supported": true
+    },
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "marketView.openTradingViewMnq",
+        "title": "Open MNQ TradingView",
+        "category": "Market View"
+      },
+      {
+        "command": "marketView.openTradingViewExternal",
+        "title": "Open MNQ TradingView Externally",
+        "category": "Market View"
+      },
+      {
+        "command": "marketView.copyTradingViewUrl",
+        "title": "Copy MNQ TradingView URL",
+        "category": "Market View"
+      }
+    ],
+    "configuration": {
+      "title": "Market View",
+      "properties": {
+        "marketView.symbol": {
+          "type": "string",
+          "default": "CME_MINI:MNQ1!",
+          "description": "TradingView symbol to open."
+        },
+        "marketView.interval": {
+          "type": "string",
+          "default": "2",
+          "description": "TradingView chart interval to open."
+        },
+        "marketView.preferredBrowserCommand": {
+          "type": "string",
+          "default": "simpleBrowser.api.open",
+          "enum": [
+            "simpleBrowser.api.open",
+            "simpleBrowser.show"
+          ],
+          "description": "VS Code browser command to try before falling back to the external browser."
+        },
+        "marketView.showFallbackNotifications": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a notification when Market View falls back to another browser target."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "tsc -p ./",
+    "compile-web": "npm run check && node esbuild.mjs",
+    "package": "npm run compile && npm run compile-web",
+    "package-web": "npm run check && node esbuild.mjs --production",
+    "watch": "tsc -watch -p ./",
+    "check": "tsc -p ./ --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/vscode": "^1.90.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.0"
+  }
+}
